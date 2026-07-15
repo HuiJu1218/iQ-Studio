@@ -1,5 +1,10 @@
 # Changelogs
 
+## v0.0.9
+### Documentation
+
+- Updated the YOLO26 Model Deploy tutorial for iQ-Foundry v0.0.3
+
 ## v0.0.8
 ### Feat
 
