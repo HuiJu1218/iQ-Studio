@@ -7,20 +7,13 @@
 
 # iQ-Foundry Model Benchmark
 
-This benchmark compares [iQ-Foundry](https://github.com/InnoIPA/iQ-Foundry) model conversions and their measured performance on EXMP-Q911.
+This benchmark compares [iQ-Foundry](https://github.com/InnoIPA/iQ-Foundry) model conversions and their measured performance on EXMP-Q911 (Qualcomm QCS9075).
 
 ## Overview
 
 This page compares the accuracy, deployment size, and on-device inference performance of the model combinations supported by [iQ-Foundry](https://github.com/InnoIPA/iQ-Foundry). The results help users select an appropriate model based on accuracy, inference latency, model size, runtime compatibility, and deployment requirements.
 
 These results provide comparison data rather than a universal model ranking. Select a model according to the requirements of your application and deployment environment.
-
-## How to Read the Results
-
-- **Converted mAP@0.5** indicates the measured detection accuracy after conversion.
-- **mAP delta** shows the percentage change relative to the original reference model. A negative delta means that measured accuracy decreased after conversion, while a positive delta means that the converted result was slightly higher on this evaluation subset.
-- **Inference time** is the average model invocation latency on the target device.
-- **Model size** indicates the storage size of the converted deployment model.
 
 ## Hardware and Benchmark Environment
 
@@ -48,11 +41,24 @@ These results provide comparison data rather than a universal model ranking. Sel
 > [!NOTE]
 > All mAP evaluations and inference-latency measurements used the first 300 images from the COCO 2017 validation dataset. The reference models were pretrained YOLO models obtained from Ultralytics, and all converted models were generated and evaluated using iQ-Foundry. Inference latency refers to model invocation latency rather than complete application pipeline latency.
 
+## How to Read the Results (Metrics)
+
+| Metric | Description | Preferred Direction |
+| --- | --- | --- |
+| Converted mAP@0.5 | Measured detection accuracy after conversion. | Closer to the reference mAP@0.5 is better |
+| mAP delta | Percentage change relative to the original reference model. A negative value indicates lower measured accuracy after conversion; a positive value indicates a slightly higher result on this evaluation subset. | Closer to 0% is better |
+| Inference time | Average model invocation latency on the target device. | Lower is better |
+| Model size | Storage size of the converted deployment model. | Lower is better |
+
+
 ## Benchmark Overview
 
 ![iQ-Foundry model accuracy and inference latency comparison](./fig/map_latency_barchart.png)
 
 The chart provides a visual comparison of mAP change and model invocation latency across runtime and precision combinations.
+
+> [!NOTE]
+> **Benchmark conversion configuration:** YOLOv10 and YOLOv26 used the one-to-many (`O2M`) output head, and their quantized conversions used the MSE quantization scheme. YOLOv11 used its default output head, and its quantized conversions used the MinMax quantization scheme.
 
 ## Results
 
