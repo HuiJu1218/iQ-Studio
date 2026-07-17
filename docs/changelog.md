@@ -1,6 +1,11 @@
 # Changelogs
 
 ## v0.0.9
+### Feat
+
+- Added the iQ-Foundry Model Benchmark
+- Added the iQ-Foundry Model Selection Guide
+
 ### Documentation
 
 - Updated the YOLO26 Model Deploy tutorial for iQ-Foundry v0.0.3
