@@ -120,7 +120,7 @@ Replace the placeholder paths in the commands below with the paths for your mode
 Run the following command from the iQ-Foundry repository root to create a deployment model:
 
 ```bash
-$ ./docker/iqf run qc \
+./docker/iqf run qc \
   --type <yolov10|yolov11|yolov26> \
   --runtime <litert|onnx> \
   --precision <fp32|int8|w8a16> \
@@ -144,7 +144,7 @@ Use one of the following runtime and precision supported combinations:
 Compare the reference and converted model accuracy at mAP@0.5:
 
 ```bash
-$ ./docker/iqf run mAP \
+./docker/iqf run mAP \
   --type <yolov10|yolov11|yolov26> \
   --runtime <litert|onnx> \
   --precision <fp32|int8|w8a16> \
@@ -165,7 +165,7 @@ The generated report contains the reference mAP, converted mAP, and mAP change. 
 Deploy the converted model to EXMP-Q911 through ADB and measure model invocation latency:
 
 ```bash
-$ ./docker/iqf run test \
+./docker/iqf run test \
   --type <yolov10|yolov11|yolov26> \
   --runtime <litert|onnx> \
   --precision <fp32|int8|w8a16> \
