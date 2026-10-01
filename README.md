@@ -202,6 +202,10 @@ iQ Studio resources are grouped into categories based on functionality:
   </tbody>
 </table>
 
+# In the News
+
+Media coverage, deployments, and ecosystem case studies are collected in [In the News](./news/README.md).
+
 # Related Repositories
 
 iQ-Studio integrates with several sibling repositories. Each owns a specific layer of the platform stack.
