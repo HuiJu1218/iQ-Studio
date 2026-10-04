@@ -68,9 +68,26 @@ iQ-Studio is built upon a robust edge AI software stack, bridging the gap betwee
 - **Kernel Space**: Powered by [Qualcomm Linux](https://www.qualcomm.com/developer/software/qualcomm-linux), integrated with our custom [Inno DTB/drivers and Yocto environments](https://github.com/InnoIPA/meta-iQ__manifest).
 - **User Space**: Seamlessly supports 3rd-party LLM SDKs, device management ([iCAP](https://www.innodisk.com/en/products/software-icap)), and inno AVL. At the very top sits the **[iQS-App layer](./README.md#explore-documentation--resources)** (VLM, Streampipe, YOLO, OGenie).
 
+### From Upstream to iQ-Studio
+
+Four layers stack up to the software running on the board, each one building on the layer below:
+
+<br />
+<div align="center"><img width="80%" height="80%" src="./docs/fig/sw_development_pipeline.png"></div>
+<br />
+
+| Layer | What it contributes | Source |
+| :--- | :--- | :--- |
+| Upstream | Linux kernel LTS, Yocto Project releases, and open source components | [kernel.org](https://www.kernel.org/) and the [Yocto Project](https://www.yoctoproject.org/) |
+| Qualcomm Linux (QLI) | Qualcomm Linux kernel, firmware, and SoC drivers, packaged as the QLI distribution | [Qualcomm Linux](https://www.qualcomm.com/developer/software/qualcomm-linux) |
+| Innodisk BSP | The `inno meta-iq` Yocto layer, adding the inno DTB and downstream drivers on top of QLI for EXMP-Q911 and the QCS9075 iQ-9075 EVK | [InnoIPA/meta-iQ__manifest](https://github.com/InnoIPA/meta-iQ__manifest) |
+| iQ-Studio | Application demos, AVL checks, benchmarks, and `iqs-launcher` compatibility handling | This repository |
+
+The Innodisk BSP is the layer that turns a generic QLI distribution into a validated system image for Innodisk hardware. It is published as a reproducible Yocto manifest, so the exact BSP that iQ-Studio targets can be rebuilt from source.
+
 ### Qualcomm Linux (QLI) Version Mapping
 
-Our architecture evolves alongside the [Qualcomm Linux Roadmap](https://www.qualcomm.com/developer/software/qualcomm-linux), ensuring alignment with the latest kernel and Yocto Project releases:
+Each QLI release line is tied to a specific Linux kernel and Yocto Project version:
 
 | Linux Kernel | Yocto Project | Qualcomm Linux (QLI) Release |
 | :--- | :--- | :--- |
@@ -78,19 +95,29 @@ Our architecture evolves alongside the [Qualcomm Linux Roadmap](https://www.qual
 | **6.6 LTS** | 5.0 Scarthgap | QLI 1.x |
 | **6.18 LTS** | Wrynose (Master) | QLI 2.x |
 
-<br />
-<div align="center"><img width="80%" height="80%" src="./docs/fig/qcl_roadmap.png"></div>
-<br />
+> Note: For the full upstream timeline, including the Kirkstone track and Qualcomm's Mainline development branch, see the [Qualcomm Linux Roadmap](https://www.qualcomm.com/developer/software/qualcomm-linux).
 
-We ensure a continuous and stable pipeline—from upstream Linux/Yocto projects down to the optimized downstream drivers—unlocking peak performance for edge AI workloads.
+### Innodisk BSP Releases
 
-Our BSP foundation is published through [InnoIPA/meta-iQ__manifest](https://github.com/InnoIPA/meta-iQ__manifest), providing a reproducible Qualcomm Yocto-based system base for EXMP-Q911 and the QCS9075 iQ-9075 EVK. iQ-Studio builds on this foundation with application demos, AVL checks, benchmarks, and `iqs-launcher` compatibility handling, helping users evaluate and deploy edge AI workloads with greater confidence.
+Each Innodisk BSP release carries one QLI release and lands **one quarter after** it. That quarter is used for board bring-up, driver enablement, and full validation on Innodisk hardware.
 
 <br />
-<div align="center"><img width="80%" height="80%" src="./docs/fig/sw_development_pipeline.png"></div>
+<div align="center"><img width="80%" height="80%" src="./docs/fig/bsp-release-roadmap.png"></div>
 <br />
 
-We also provide integrated and supplied [Ubuntu images](https://ubuntu.com/download/qualcomm-iot#evaluation-kit) for development.
+The BSP version number reads as `vMAJOR.MINOR.PATCH`:
+
+| Field | Tracks |
+| :--- | :--- |
+| `MAJOR` | Hardware change |
+| `MINOR` | QLI version carried by the release |
+| `PATCH` | Patch level |
+
+> Note: Versions and dates beyond the current release are planned schedules and may change together with the [Qualcomm Linux Roadmap](https://www.qualcomm.com/developer/software/qualcomm-linux).
+
+### Ubuntu Images
+
+Innodisk also provides integrated [Ubuntu images](https://ubuntu.com/download/qualcomm-iot#evaluation-kit) for development.
 
 > Note: To keep all IO functions working correctly, use the Innodisk-provided Ubuntu image. See [InnoIPA/iQ-ubuntu__manifest](https://github.com/InnoIPA/iQ-ubuntu__manifest) for the available image versions. The official Ubuntu image from Qualcomm can boot on the platform but does not guarantee full IO support.
 
