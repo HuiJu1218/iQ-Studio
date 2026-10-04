@@ -49,6 +49,8 @@ cd iQ-Studio
 ./install.sh
 ```
 
+> Note: The latest iQ-Studio requires BSP 2.5.x (QLI 2.0). On BSP 2.3.x (QLI 1.8), run `git checkout v0.0.10` in the `iQ-Studio` directory before `./install.sh`. Tag `v0.0.10` and earlier are the releases for these platforms.
+
 # 30-Second Demo
 
 With the platform booted and iQ-Studio installed, two commands are enough to see a vision-language model running on a live UVC Camera feed. For the detailed walkthrough, see [iQS-VLM](./tutorials/applications/iqs-vlm/README.md).
@@ -204,6 +206,8 @@ Each QLI release line is tied to a specific Linux kernel and Yocto Project versi
 | **6.6 LTS** | 4.0 Kirkstone | QLI 1.x |
 | **6.6 LTS** | 5.0 Scarthgap | QLI 1.x |
 | **6.18 LTS** | Wrynose (Master) | QLI 2.x |
+
+> Note: Latest iQ-Studio targets QLI 2.x (BSP 2.5.x). QLI 1.x platforms (BSP 2.3.x) use tag `v0.0.10` or earlier.
 
 > Note: For the full upstream timeline, including the Kirkstone track and Qualcomm's Mainline development branch, see the [Qualcomm Linux Roadmap](https://www.qualcomm.com/developer/software/qualcomm-linux).
 
