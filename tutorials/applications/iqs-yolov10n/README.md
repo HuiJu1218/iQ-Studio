@@ -38,6 +38,17 @@ We are using the [Ultralytics](https://docs.ultralytics.com/models/yolov10/) fra
 
 # EXMP-Q911
 
+## Supported Versions
+
+| BSP Version | QLI Version |
+| :--- | :--- |
+| 2.5.x | 2.0 |
+
+- **BSP version** — read `/etc/innodisk/BSP-version`.
+- **QLI version** — run `uname -a` and look for the `qli-<version>` field.
+
+> Note: On QLI 1.x, see the [changelog](../../../docs/changelog.md) for the matching iQ-Studio release. To move to QLI 2.0, flash an image from [meta-iQ__manifest](https://github.com/InnoIPA/meta-iQ__manifest).
+
 ## Platform information
 
 - RAM: 36GB

@@ -138,7 +138,6 @@ git clone https://github.com/InnoIPA/iQ-Studio.git
 cd iQ-Studio
 ./install.sh
 ```
-> Note: If you are using Ubuntu, please log in again after installation.
 
 # Explore Documentation & Resources
 
@@ -228,6 +227,10 @@ iQ Studio resources are grouped into categories based on functionality:
     </tr>
   </tbody>
 </table>
+
+# In the News
+
+Media coverage, deployments, and ecosystem case studies are collected in [In the News](./news/README.md).
 
 # Related Repositories
 
