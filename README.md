@@ -7,7 +7,11 @@
 # iQ-Studio
 
   <br />
-  <div align="center"><img width="30%" height="30%" src="./docs/fig/iq-studio-logo.png"></div>
+  <div align="center"><picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./docs/fig/iQ-badge-white-studio.svg">
+      <source media="(prefers-color-scheme: light)" srcset="./docs/fig/iQ-badge-ink-studio.svg">
+      <img width="30%" height="30%" alt="iQ Studio" src="./docs/fig/iQ-badge-ink-studio.svg">
+    </picture></div>
   <br />
 
   <h1 align="center"><em><strong>Show Performance, Spark Imagination.</strong></em></h1>
