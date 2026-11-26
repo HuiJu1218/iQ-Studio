@@ -30,7 +30,13 @@
 
 # Performance
 
-**Measured, not claimed.** With 9 channels of 1080p video, iQS-Streampipe on the EXMP-Q911 (Qualcomm IQ-9075) holds **28.41 FPS per channel**, against 7.58 on a Jetson AGX Orin 32GB, about **3.7×** (same YOLOv10n INT8 model; one workload, not a general ranking). The scripts, configuration, and raw data are in [Benchmarks](./benchmarks/iq-9075/multi-stream/iqs-streampipe/README.md) so you can reproduce it on your own device.
+**Measured, not claimed.** With 9 channels of 1080p video, iQS-Streampipe on the EXMC-Q911 (Qualcomm Dragonwing QCS9075) holds **28.41 FPS per channel**, against 7.58 on a GPU platform, about **3.7×** (same YOLOv10n INT8 model; one workload, not a general ranking). The scripts, configuration, and raw data are in [Benchmarks](./benchmarks/iq-9075/multi-stream/iqs-streampipe/README.md) so you can reproduce it on your own device.
+
+<div align="center"><picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./docs/fig/iqs-performance-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="./docs/fig/iqs-performance-light.png">
+    <img width="80%" alt="iQS-Streampipe on EXMP-Q911: 28.41 FPS per channel at 9 channels of 1080p video, with the FPS per channel from 1 to 16 channels" src="./docs/fig/iqs-performance-light.png">
+  </picture></div>
 
 
 # Demos
