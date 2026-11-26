@@ -18,70 +18,54 @@
 
   <h3 align="center">It helps users quickly understand, explore, and prototype ideas by showcasing the platform’s performance and capabilities—inspiring innovation through hands-on experience.</h3>
 
+<p align="center">
+  <a href="https://iqstudio.innodisk.com"><strong>🌐 Website</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://iqstudio.innodisk.com/architecture.html"><strong>🧱 Architecture</strong></a>
+</p>
+
 > [!NOTE]
 > iQ-Studio is suitable for a range of products developed based on the [Innodisk Qualcomm Dragonwing SoC](https://www.innodisk.com/en/news/innodisk-unveils-ai-on-dragonwing-computing-series).
 
-# Pick Your Path
 
-Three common starting points. Pick the one that matches your goal today; you can always come back for another.
+# Performance
 
-| 🚀 Run a demo | 🛠 Develop & customize | 📊 Evaluate the platform |
-| --- | --- | --- |
-| **For FAEs and evaluators.** See an AI inference demo running on the hardware in under ten minutes. | **For application developers and ML engineers.** Swap models, change inputs, or deploy your own trained model. | **For PMs and integrators.** Review measured performance on real workloads and how iQ-Studio fits the platform stack. |
-| **Step 1:** [Getting Started](#getting-started)<br>**Step 2:** [30-Second Demo](#30-second-demo)<br>**Step 3:** [Applications](./tutorials/applications/README.md) | **Step 1:** [Getting Started](#getting-started)<br>**Step 2:** [SDKs](./tutorials/sdks/README.md) to customize, or [Model Deploy](./tutorials/model-deploy/README.md) to bring your own model | **Step 1:** [Benchmarks](./benchmarks/README.md)<br>**Step 2:** [Core Software Stack & Architecture](#core-software-stack--architecture) |
+**Measured, not claimed.** With 9 channels of 1080p video, iQS-Streampipe on the EXMP-Q911 (Qualcomm IQ-9075) holds **28.41 FPS per channel**, against 7.58 on a Jetson AGX Orin 32GB, about **3.7×** (same YOLOv10n INT8 model; one workload, not a general ranking). The scripts, configuration, and raw data are in [Benchmarks](./benchmarks/iq-9075/multi-stream/iqs-streampipe/README.md) so you can reproduce it on your own device.
 
-# Getting Started
 
-Boot your platform first, then install iQ-Studio. Once both are done, every demo and tutorial below will run.
+# Demos
 
-## Boot Your Platform
+Pick a demo, run one command, and see the result on screen. New to the platform? Power on and flash it first with the [Starting Guides](./tutorials/starting-guides/README.md). Each demo page lists what you need and how to install.
 
-Flash an image and boot the device. See the [Starting Guides](./tutorials/starting-guides/README.md); for the Q911 series, start with the [EXMP-Q911 Starting Guide](./tutorials/starting-guides/iq-9075/README.md).
+| Demo | Launch command | Requires |
+| :--- | :--- | :--- |
+| [iQS-VLM](./tutorials/applications/iqs-vlm/README.md) | `iqs-launcher --autotag iqs-vlm-demo` | BSP v2.5.0+ (`v0.0.12`+), UVC Camera, monitor |
+| [iQS-QVADK](./tutorials/applications/iqs-qvadk/README.md) | `iqs-launcher --autotag iqs-qvadk` | BSP v2.5.0+, monitor |
+| [iQS-Streampipe](./tutorials/applications/iqs-streampipe/README.md) | `iqs-launcher --autotag iqs-streampipe` | BSP v2.5.0+ (`v0.0.12`+), monitor |
+| [iQS-YOLOv10n](./tutorials/applications/iqs-yolov10n/README.md) | `iqs-launcher --autotag iqs-yolov10n` | BSP v2.5.0+ (`v0.0.11`+) |
 
-Two image options are available (see [OS Images](#os-images) for details):
+## iQS-VLM
+A vision-language model, powered by [GenieX](https://github.com/qualcomm/GenieX), describes a live UVC Camera feed on the monitor in real time.
 
-- **Innodisk BSP (Yocto), recommended.** iQ-Studio is developed and validated on the Yocto-based BSP.
-- **Innodisk Ubuntu image.** iQ-Studio `v0.0.10` has been verified on Ubuntu image release `x09` (Canonical's release naming for Qualcomm platforms). Other iQ-Studio versions have not been tested on Ubuntu; use it only if you need an Ubuntu environment.
+<div align="center"><img width="70%" src="./tutorials/applications/iqs-vlm/fig/vlm-demo.gif"></div>
 
-## Install iQ-Studio
+## iQS-QVADK
+Many 1080p channels at once, with several AI models running on every channel on the Qualcomm NPU of a single device. Defaults to PPE detection.
 
-Choose the iQ-Studio version that matches your platform. To check your BSP version, run `cat /etc/innodisk/BSP-version` on the platform.
+<div align="center"><img width="70%" src="./tutorials/applications/iqs-qvadk/fig/gif0.gif"></div>
 
-| Your platform | iQ-Studio version |
-| :--- | :--- |
-| BSP v2.5.0 or later | `v0.0.12` or later |
-| BSP earlier than v2.5.0 | `v0.0.10` |
-| Ubuntu image `x09` | `v0.0.10` |
+## iQS-Streampipe
+A multi-stream video pipeline (GStreamer and OpenCV) that runs object detection on UVC Cameras or video files and shows the composite output.
 
-On the platform, run:
+<div align="center"><img width="70%" src="./tutorials/applications/iqs-streampipe/fig/gif0.gif"></div>
 
-```bash
-git clone https://github.com/InnoIPA/iQ-Studio.git
-cd iQ-Studio
-./install.sh
-```
+## iQS-YOLOv10n
+YOLOv10n INT8 inference on GPU and NPU, with the same model compared across platforms.
 
-For `v0.0.10`, run `git checkout v0.0.10` in the `iQ-Studio` directory before `./install.sh`. To return to the latest version, run `git checkout main`. The demos and tutorials differ between versions, so on `v0.0.10` follow the README in that checkout instead of this page.
+<div align="center"><img width="70%" src="./tutorials/applications/iqs-yolov10n/fig/gif0.gif"></div>
 
-# 30-Second Demo
+For all demos and their details, see [Demos](./tutorials/applications/README.md).
 
-With the platform booted and iQ-Studio installed, one command is enough to see a vision-language model, powered by [GenieX](https://github.com/qualcomm/GenieX), describe a live UVC Camera feed on the monitor in real time:
-
-```bash
-iqs-launcher --autotag iqs-vlm-demo
-```
-
-This starts **Qwen3-VL-4B** on the NPU. To run **LFM2.5-VL-450M** on the NPU, CPU, GPU or Hybrid backend instead, see the detailed walkthrough in [iQS-VLM](./tutorials/applications/iqs-vlm/README.md).
-
-To stop the demo, press `q` in the dashboard window or `Ctrl+C` in the terminal.
-
-<br />
-<div align="center"><img width="100%" height="100%" src="./tutorials/applications/iqs-vlm/fig/vlm-demo.gif"></div>
-<br />
-
-For other applications and the launch commands behind them, see [Applications](./tutorials/applications/README.md).
-
-> Note: `iqs-launcher` runs every iQ-Studio application by pulling (online) or loading (offline) the matching Docker image. See [How to use iqs-launcher](./docs/how-to-use-iqs-launcher.md).
 
 # Explore Documentation & Resources
 
@@ -101,11 +85,10 @@ iQ-Studio resources are grouped into categories based on functionality:
   </thead>
   <tbody>
     <tr>
-      <td>Starting Guides</td>
-      <td>Quick-start guides for everything.</td>
+      <td><a href="./tutorials/starting-guides/README.md">Starting Guides</a></td>
+      <td>Power on, flash, and update your device before running anything else.</td>
       <td>
         <ul>
-          <li><a href="./tutorials/starting-guides/README.md">Starting Guides Overview</a></li>
           <li><a href="./tutorials/starting-guides/iq-9075/README.md">Q911 Quick Start Guide</a></li>
           <li><a href="./tutorials/starting-guides/flash-image/README.md">Q911 Image Flashing Guide</a></li>
           <li><a href="./tutorials/starting-guides/ota/README.md">Qualcomm OTA Guide</a></li>
@@ -113,11 +96,10 @@ iQ-Studio resources are grouped into categories based on functionality:
       </td>
     </tr>
     <tr>
-      <td>AVL(Approved Vendor List)</td>
-      <td>Provides guidance on verifying that the driver starts correctly on the system and quickly demonstrating the validated results.</td>
+      <td><a href="./tutorials/avl/README.md">AVL(Approved Vendor List)</a></td>
+      <td>Innodisk camera modules, camera adapter boards, and embedded peripheral modules validated on the platform, with steps to verify that each driver starts correctly.</td>
       <td>
         <ul>
-          <li><a href="./tutorials/avl/README.md">Approved Vendor List</a></li>
           <li><a href="./tutorials/avl/gmsl-camera/README.md">GMSL Camera</a></li>
           <li><a href="./tutorials/avl/mipi-camera/README.md">MIPI Camera</a></li>
           <li><a href="./tutorials/avl/camera-adapter-boards/README.md">Camera Adapter Boards</a></li>
@@ -126,11 +108,10 @@ iQ-Studio resources are grouped into categories based on functionality:
       </td>
     </tr>
     <tr>
-      <td>Applications</td>
-      <td>Application-level examples focused on specific use cases and vertical scenarios.</td>
+      <td><a href="./tutorials/applications/README.md">Demos</a></td>
+      <td>Ready-to-run demos: pick one, run a single command, and see the inference result on screen.</td>
       <td>
         <ul>
-          <li><a href="./tutorials/applications/README.md">Applications Overview</a></li>
           <li><a href="./tutorials/applications/iqs-vlm/README.md">iQS-VLM</a></li>
           <li><a href="./tutorials/applications/iqs-streampipe/README.md">iQS-Streampipe</a></li>
           <li><a href="./tutorials/applications/iqs-yolov10n/README.md">YOLOv10n INT8 Inference on GPU and NPU</a></li>
@@ -139,22 +120,20 @@ iQ-Studio resources are grouped into categories based on functionality:
       </td>
     </tr>
     <tr>
-      <td>Model Deploy</td>
-      <td>End-to-end guides for turning trained AI models into target-ready artifacts, covering quantization, conversion, quality validation, and on-device inference.</td>
+      <td><a href="./tutorials/model-deploy/README.md">Model Deploy</a></td>
+      <td>Bring your own model: quantize, convert, validate, and run it on the device with iQ-Foundry, plus a guide for choosing the model configuration.</td>
       <td>
         <ul>
-          <li><a href="./tutorials/model-deploy/README.md">Model Deploy Overview</a></li>
           <li><a href="./tutorials/model-deploy/cv/yolo26/README.md">Model Deploy: How to Convert, Optimize, and Perform Inference with YOLO26 Models</a></li>
           <li><a href="./tutorials/model-deploy/iqf-model-guide/README.md">iQ-Foundry Model Selection Guide</a></li>
         </ul>
       </td>
     </tr>
     <tr>
-      <td>SDKs</td>
-      <td>Documentation and examples on how to use the SDKs effectively.</td>
+      <td><a href="./tutorials/sdks/README.md">SDKs</a></td>
+      <td>Customize the demos after you run them: chat with the VLM, change the model and video source, or run your own LLM/VLM.</td>
       <td>
         <ul>
-          <li><a href="./tutorials/sdks/README.md">SDKs Overview</a></li>
           <li><a href="./tutorials/sdks/iqs-vlm/README.md">iQS-VLM: Chat with the VLM through Open WebUI</a></li>
           <li><a href="./tutorials/sdks/iqs-streampipe/README.md">iQS-Streampipe: How to Change the Custom Model and Video Source</a></li>
           <li><a href="./tutorials/sdks/iqs-qvadk/README.md">iQS-QVADK: How to Switch and Run the Applications</a></li>
@@ -163,11 +142,10 @@ iQ-Studio resources are grouped into categories based on functionality:
       </td>
     </tr>
     <tr>
-      <td>Benchmarks</td>
-      <td>Reproducible performance tests for multi-stream inference and AI models, grouped by platform (IQ-9075 and IQ-8275).</td>
+      <td><a href="./benchmarks/README.md">Benchmarks</a></td>
+      <td>Reproducible measurements of AI models and multi-stream scaling on IQ-9075 and IQ-8275, with scripts and configuration included.</td>
       <td>
         <ul>
-          <li><a href="./benchmarks/README.md">Benchmarks Overview</a></li>
           <li><a href="./benchmarks/iq-9075/multi-stream/iqs-streampipe/README.md">IQ-9075: iQS-Streampipe Multi-stream Inference</a></li>
           <li><a href="./benchmarks/iq-9075/multi-stream/iqs-qvadk-scaling/README.md">IQ-9075: iQS-QVADK Multi-stream Scaling</a></li>
           <li><a href="./benchmarks/iq-9075/model/perception_model/README.md">IQ-9075: Perception AI Benchmark</a></li>
@@ -179,70 +157,9 @@ iQ-Studio resources are grouped into categories based on functionality:
   </tbody>
 </table>
 
-# Core Software Stack & Architecture
-
-This section is for readers who want to understand what runs on the board and how it is built. You do not need it to run the demos above.
-
-## Software Stack
-
-What runs on the platform, from hardware up to the applications:
-
-<br />
-<div align="center"><img width="80%" height="80%" src="./docs/fig/ai_on_dragonwing_sw_stack.png"></div>
-<br />
-
-- **Hardware & Firmware**: [Qualcomm Dragonwing QCS9075 SoC](https://www.innodisk.com/en/products/computing/qualcomm-solution/exmp-q911) and low-level firmware.
-- **Kernel Space**: Powered by [Qualcomm Linux](https://www.qualcomm.com/developer/software/qualcomm-linux), integrated with our custom [Inno DTB/drivers and Yocto environments](https://github.com/InnoIPA/meta-iQ__manifest).
-- **User Space**: Seamlessly supports 3rd-party LLM SDKs, device management ([iCAP](https://www.innodisk.com/en/products/software-icap)), and inno AVL. At the very top sits the **[iQS-App layer](#explore-documentation--resources)** (VLM, Streampipe, YOLO).
-
-## How the Software Is Built: From Upstream to iQ-Studio
-
-Where each piece of that stack comes from. Four layers build on one another, each on top of the layer below:
-
-<br />
-<div align="center"><img width="80%" height="80%" src="./docs/fig/sw_development_pipeline.png"></div>
-<br />
-
-| Layer | What it contributes | Source |
-| :--- | :--- | :--- |
-| Upstream | Linux kernel LTS, Yocto Project releases, and open source components | [kernel.org](https://www.kernel.org/) and the [Yocto Project](https://www.yoctoproject.org/) |
-| Qualcomm Linux (QLI) | Qualcomm Linux kernel, firmware, and SoC drivers, packaged as the QLI distribution | [Qualcomm Linux](https://www.qualcomm.com/developer/software/qualcomm-linux) |
-| Innodisk BSP | The `inno meta-iq` Yocto layer, adding the inno DTB and downstream drivers on top of QLI for EXMP-Q911 and the QCS9075 iQ-9075 EVK | [InnoIPA/meta-iQ__manifest](https://github.com/InnoIPA/meta-iQ__manifest) |
-| iQ-Studio | Application demos, AVL checks, benchmarks, and `iqs-launcher` compatibility handling | This repository |
-
-The Innodisk BSP is the layer that turns a generic QLI distribution into a validated system image for Innodisk hardware. It is published as a reproducible Yocto manifest, so the exact BSP that iQ-Studio targets can be rebuilt from source.
-
-## BSP & QLI Releases
-
-Each QLI release line is tied to a specific Linux kernel and Yocto Project version:
-
-| Linux Kernel | Yocto Project | Qualcomm Linux (QLI) Release |
-| :--- | :--- | :--- |
-| **6.6 LTS** | 4.0 Kirkstone | QLI 1.x |
-| **6.6 LTS** | 5.0 Scarthgap | QLI 1.x |
-| **6.18 LTS** | Wrynose (Master) | QLI 2.x |
-
-> Note: For the full upstream timeline, including the Kirkstone track and Qualcomm's Mainline development branch, see the [Qualcomm Linux Roadmap](https://www.qualcomm.com/developer/software/qualcomm-linux).
-
-Each Innodisk BSP release carries one QLI release and lands **one quarter after** it. That quarter is used for board bring-up, driver enablement, and full validation on Innodisk hardware.
-
-<br />
-<div align="center"><img width="80%" height="80%" src="./docs/fig/bsp-release-roadmap.png"></div>
-<br />
-
-For the BSP version numbering rules and release notes, see the [meta-iQ__manifest release table](https://github.com/InnoIPA/meta-iQ__manifest).
-
-> Note: Versions and dates beyond the current release are planned schedules and may change together with the [Qualcomm Linux Roadmap](https://www.qualcomm.com/developer/software/qualcomm-linux).
-
-## OS Images
-
-Besides the Yocto-based Innodisk BSP, Innodisk also provides integrated [Ubuntu images](https://ubuntu.com/download/qualcomm-iot#evaluation-kit) for development.
-
-> Note: To keep all IO functions working correctly, use the Innodisk-provided Ubuntu image. See [InnoIPA/iQ-ubuntu__manifest](https://github.com/InnoIPA/iQ-ubuntu__manifest) (no longer maintained since v2.5.1; merged into [InnoIPA/meta-iQ__manifest](https://github.com/InnoIPA/meta-iQ__manifest)) for the available image versions. If you need your own Ubuntu image, Innodisk provides a packaging guide in [meta-iQ__manifest](https://github.com/InnoIPA/meta-iQ__manifest/blob/main/recipes-ubuntu/README.md); a self-packaged image is not validated by Innodisk, so test the IO functions yourself. The official Ubuntu image from Qualcomm can boot on the platform but does not guarantee full IO support.
-
 # In the News
 
-Media coverage, deployments, and ecosystem case studies are collected in [In the News](./news/README.md).
+Media coverage, deployments, and ecosystem case studies: see [In the News](https://iqstudio.innodisk.com/in-the-news.html).
 
 # Related Repositories
 
