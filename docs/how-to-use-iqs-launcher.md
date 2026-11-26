@@ -7,9 +7,9 @@
 
 # How to Use iqs-launcher
 
-`iqs-launcher` is the execution entry point for every application shipped with iQ-Studio. It locates the Docker image for the application and runs it. It supports both online mode (pull from Docker Hub) and offline mode (load pre-staged files).
+`iqs-launcher` is the execution entry point for every application shipped with iQ-Studio. Install it first with `git clone` and `./install.sh`. It then finds the Docker image for the application and runs it. When the platform cannot download the image from Docker Hub, you can provide the image as a `.tar` archive instead.
 
-This page covers both modes side by side. For a single end-to-end demo command, see the [Quick Start](../README.md#getting-started) in the entry page.
+For a single end-to-end demo command, see the [Demos](../tutorials/applications/README.md).
 
 ## Introduction
 
@@ -22,21 +22,60 @@ This page covers both modes side by side. For a single end-to-end demo command, 
 The public command surface is:
 
 ```bash
-iqs-launcher --autotag <app_name>[:<version>]    # Docker image: pull / load / run
+iqs-launcher --autotag <app_name>[:<version>]    # Docker image: find / load / pull, then run
 iqs-launcher --other <command>                   # Additional flags forwarded to the application
 ```
 
-`iqs-launcher` does not check the BSP version. `install.sh` checks it once at installation, so choose the iQ-Studio version that matches your BSP as described in [Install iQ-Studio](../README.md#install-iq-studio).
+`iqs-launcher` does not check the BSP version. `install.sh` checks it once at installation, so choose the iQ-Studio version that matches your BSP, as listed in the Supported Versions section of each [demo page](../tutorials/applications/README.md).
 
-## Online Mode
+## Install iQ-Studio
 
-Online mode is the default path. With internet access on the platform, `iqs-launcher --autotag` pulls the matching Docker image directly from Docker Hub.
+Before you can run `iqs-launcher`, get the iQ-Studio repository on the platform and run `install.sh`. Both steps are required.
+
+1. Clone the repository on the platform:
+
+    ```bash
+    git clone https://github.com/InnoIPA/iQ-Studio.git
+    cd iQ-Studio
+    ```
+
+    If the platform cannot run `git clone`, see [Install iQ-Studio Without Network](#install-iq-studio-without-network).
+
+2. For an earlier BSP, switch to the matching version before installing. Skip this step on BSP v2.5.0 or later.
+
+    ```bash
+    git checkout v0.0.10
+    ```
+
+    To return to the latest version later, run `git checkout main`.
+
+3. Run the installer:
+
+    ```bash
+    ./install.sh
+    ```
+
+    `install.sh` checks the BSP version, creates the Python virtual environment, and links `iqs-launcher` into your `PATH`.
+
+## How iqs-launcher Finds the Image
+
+`iqs-launcher --autotag` tries three sources in order and uses the first one that works. The log lines in the figure are the messages you see in the terminal.
 
 <br />
-<div align="center"><img width="80%" height="80%" src="./fig/iqs-online-flow.svg"></div>
+<div align="center"><img width="80%" height="80%" src="./fig/iqs-image-resolution-flow.svg"></div>
 <br />
 
-Common online-mode commands used in the tutorials:
+| Step | Source | What happens |
+| :--- | :--- | :--- |
+| 1 | Local Docker image | The image `innodiskorg/<app>:<tag>` is already on the platform, so it runs immediately. |
+| 2 | `.tar` archive | `binaries/docker-images/<app>.tar` exists, so `iqs-launcher` loads it with `docker load`. |
+| 3 | Docker Hub | Neither is found, so the image is pulled from Docker Hub. This step needs network access. |
+
+When you omit `:<version>`, the tag is `latest`.
+
+## Run an Application
+
+Common commands used in the tutorials:
 
 ```bash
 iqs-launcher --autotag iqs-vlm-demo
@@ -46,15 +85,17 @@ iqs-launcher --autotag iqs-yolov10n
 
 To pin a specific version, append `:<version>` to the autotag value, for example `iqs-launcher --autotag iqs-yolov10n:v0.1.0`. To pass extra flags to the underlying application, use `--other`, for example `iqs-launcher --autotag iqs-streampipe --other "-c config.json"`.
 
-## Offline Mode
+If the platform has network access, you do not need to do anything else. The first run pulls the image, and later runs use the local copy.
 
-Use offline mode when the platform has no internet access. You pre-stage the Docker image (`.tar`) on a host PC, transfer it to the platform, and `iqs-launcher` loads it locally.
+## When the Platform Cannot Download the Image
+
+Use this section when the platform has no network, or cannot reach Docker Hub. You download the image as a `.tar` archive on a host PC, transfer it to the platform, and `iqs-launcher` loads it at Step 2 without contacting Docker Hub.
 
 <br />
-<div align="center"><img width="80%" height="80%" src="./fig/iqs-offline-flow.svg"></div>
+<div align="center"><img width="80%" height="80%" src="./fig/iqs-tar-prepare-flow.svg"></div>
 <br />
 
-### Step 1: Download the Package on a Host PC
+### Step 1: Download the Image on a Host PC
 
 > Notice: This step requires internet access on the host PC. If you cannot access Docker Hub, contact Innodisk to obtain the `.tar`.
 
@@ -93,7 +134,7 @@ Use offline mode when the platform has no internet access. You pre-stage the Doc
 
     The result is a `.tar` file ready to transfer to the platform.
 
-### Step 2: Transfer the Package to the Platform
+### Step 2: Transfer the Archive to the Platform
 
 1. Prepare a USB flash drive.
 2. Copy the `.tar` to the USB drive, then insert it into the platform.
@@ -106,7 +147,7 @@ Use offline mode when the platform has no internet access. You pre-stage the Doc
 
 4. Sample output (your hardware layout may differ):
 
-    ```bash
+    ```text
     |-sde53 259:37   0     4K  0 part
     `-sde54 259:38   0     1M  0 part
     sdf       8:80   0   200M  0 disk
@@ -119,7 +160,7 @@ Use offline mode when the platform has no internet access. You pre-stage the Doc
 5. Create a mount point and mount the USB drive (the example assumes you are in the home directory):
 
     ```bash
-    mkdir workspace/usb/
+    mkdir -p workspace/usb/
     mount /dev/sdi1 workspace/usb/
     ```
 
@@ -129,9 +170,9 @@ Use offline mode when the platform has no internet access. You pre-stage the Doc
     cp workspace/usb/<docker image>.tar /path/to/iQ-Studio/binaries/docker-images/
     ```
 
-7. Verify the package is in the correct location.
+7. Verify the archive is in the correct location.
 
-    The `.tar` must be under `iQ-Studio/binaries/docker-images/`:
+    The `.tar` must be under `iQ-Studio/binaries/docker-images/`, and the file name must match the application name:
 
     ```text
     iQ-Studio/
@@ -142,12 +183,45 @@ Use offline mode when the platform has no internet access. You pre-stage the Doc
 
 ### Step 3: Launch the Application
 
-Run the same `iqs-launcher` command as in online mode. `iqs-launcher` detects the local `.tar` and loads it directly without contacting Docker Hub. For application-specific usage, see the relevant page under [Applications](../tutorials/applications/README.md).
+Run `iqs-launcher` with the same version you downloaded. `iqs-launcher` finds the `.tar` at Step 2 and loads it directly.
+
+```bash
+iqs-launcher --autotag iqs-vlm-demo:0.0.1
+```
+
+> Note: After loading, `iqs-launcher` expects the image `innodiskorg/<app>:<tag>`. When you omit the version, the tag is `latest`, so use the version you downloaded in Step 1.
+
+For application-specific usage, see the relevant page under [Applications](../tutorials/applications/README.md).
+
+## Install iQ-Studio Without Network
+
+If the platform cannot run `git clone`, copy the repository to the platform by USB drive instead. `install.sh` itself only checks the BSP version, creates the Python virtual environment, and links `iqs-launcher` into your `PATH`, so it does not need network access.
+
+1. On a host PC with internet access, get the repository and pack it:
+
+    ```bash
+    git clone https://github.com/InnoIPA/iQ-Studio.git
+    tar -czf iQ-Studio.tar.gz iQ-Studio
+    ```
+
+    For an earlier BSP, run `git checkout v0.0.10` in the `iQ-Studio` directory before packing. See [Supported Versions](../tutorials/applications/README.md) on each demo page.
+
+2. Copy `iQ-Studio.tar.gz` to a USB drive, then mount the drive on the platform as in [Step 2](#step-2-transfer-the-archive-to-the-platform) above.
+3. Extract the repository and run the installer on the platform:
+
+    ```bash
+    tar -xzf workspace/usb/iQ-Studio.tar.gz
+    cd iQ-Studio
+    ./install.sh
+    ```
+
+4. Provide the Docker image as described in [When the Platform Cannot Download the Image](#when-the-platform-cannot-download-the-image).
 
 ## Troubleshooting
 
-- **BSP version mismatch**: `install.sh` aborts when the BSP is earlier than v2.5.0. Run `git checkout v0.0.10` in the `iQ-Studio` directory and install again. `iqs-launcher` does not select a version automatically, so make sure the iQ-Studio version matches your BSP (see [Install iQ-Studio](../README.md#install-iq-studio)).
-- **`autotag` cannot find an image**: in online mode, verify network access from the platform. In offline mode, confirm the `.tar` is under `binaries/docker-images/` and that the filename matches the autotag value.
+- **BSP version mismatch**: `install.sh` aborts when the BSP is earlier than v2.5.0. Run `git checkout v0.0.10` in the `iQ-Studio` directory and install again. `iqs-launcher` does not select a version automatically, so make sure the iQ-Studio version matches your BSP.
+- **`could not find a Docker image`**: all three steps failed. If the platform has no network, place the `.tar` as described in [When the Platform Cannot Download the Image](#when-the-platform-cannot-download-the-image). If it has network, verify access to Docker Hub from the platform.
+- **The `.tar` is ignored**: confirm it is under `binaries/docker-images/` and that the file name matches the autotag application name, for example `iqs-vlm-demo.tar`. Then run `iqs-launcher` with the same version you downloaded.
 
 ## Related
 

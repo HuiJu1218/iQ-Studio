@@ -41,7 +41,7 @@
 
 # Demos
 
-Pick a demo, run one command, and see the result on screen. New to the platform? Power on and flash it first with the [Starting Guides](./tutorials/starting-guides/README.md). Each demo page lists what you need and how to install.
+Pick a demo, run one command, and see the result on screen. New to the platform? Power on and flash it first with the [Starting Guides](./tutorials/starting-guides/README.md). Each demo page lists what you need and how to install. To install iQ-Studio with `git clone` and `./install.sh`, or to run a demo when the platform has no network or cannot reach Docker Hub, see [How to Use iqs-launcher](./docs/how-to-use-iqs-launcher.md).
 
 | Demo | Launch command | Requires |
 | :--- | :--- | :--- |

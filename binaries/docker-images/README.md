@@ -5,13 +5,13 @@
  https://opensource.org/licenses/MIT
 -->
 
-# Docker Images for Offline Mode
+# Docker Image Archives
 
 This folder is empty by default. iQ-Studio does not ship Docker images in this repository.
 
-Use it only for the offline flow, when the platform has no internet access. Place the Docker image archive (`.tar`) of the application here, and `iqs-launcher` loads it directly without contacting Docker Hub.
+Use it when the platform cannot download the image from Docker Hub, for example when it has no network. Place the Docker image archive (`.tar`) of the application here, and `iqs-launcher` loads it directly without contacting Docker Hub.
 
 - The file name must match the application name, for example `iqs-vlm-demo.tar`.
 - If you cannot access Docker Hub, contact Innodisk to obtain the `.tar`.
 
-For how to download, transfer, and launch the image, see the [Offline Mode](../../docs/how-to-use-iqs-launcher.md#offline-mode) section of How to Use iqs-launcher.
+For how to download, transfer, and launch the image, see [When the Platform Cannot Download the Image](../../docs/how-to-use-iqs-launcher.md#when-the-platform-cannot-download-the-image) in How to Use iqs-launcher.
