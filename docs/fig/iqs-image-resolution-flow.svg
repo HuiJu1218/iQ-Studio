@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 490" width="760" height="490" role="img" aria-labelledby="t d">
+  <title id="t">How iqs-launcher finds a Docker image</title>
+  <desc id="d">iqs-launcher checks for a local Docker image, then for a .tar archive in binaries/docker-images, then falls back to Docker Hub. The first match runs the application.</desc>
+  <style>
+    :root { --card:#FFFFFF; --stroke:#94A3B8; --text:#0F172A; --muted:#475569; --line:#475569;
+            --accent:#2563EB; --accent-bg:#DBEAFE; --ok:#15803D; --ok-bg:#DCFCE7; --warn:#B45309; --warn-bg:#FEF3C7; }
+    @media (prefers-color-scheme: dark) {
+      :root { --card:#1E293B; --stroke:#64748B; --text:#F1F5F9; --muted:#CBD5E1; --line:#94A3B8;
+              --accent:#60A5FA; --accent-bg:#1E3A5F; --ok:#86EFAC; --ok-bg:#14532D; --warn:#FCD34D; --warn-bg:#451A03; }
+    }
+    text { font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: var(--text); }
+    .title { font-size: 15px; font-weight: 600; }
+    .sub { font-size: 12.5px; fill: var(--muted); }
+    .log { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; fill: var(--muted); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; font-weight: 600; }
+    .label { font-size: 12px; font-weight: 600; fill: var(--line); }
+    .card { fill: var(--card); stroke: var(--stroke); stroke-width: 1.5; }
+    .start { fill: var(--accent-bg); stroke: var(--accent); stroke-width: 1.5; }
+    .ok { fill: var(--ok-bg); stroke: var(--ok); stroke-width: 1.5; }
+    .warn { fill: var(--warn-bg); stroke: var(--warn); stroke-width: 1.5; }
+    .badge { fill: var(--accent); }
+    .badge-text { fill: #FFFFFF; font-size: 13px; font-weight: 700; text-anchor: middle; }
+    .arrow { stroke: var(--line); stroke-width: 1.8; fill: none; marker-end: url(#head); }
+    .okarrow { stroke: var(--ok); stroke-width: 1.8; fill: none; marker-end: url(#okhead); }
+    .oklabel { font-size: 12px; font-weight: 600; fill: var(--ok); text-anchor: middle; }
+    .center { text-anchor: middle; }
+  </style>
+  <defs>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--line)"/>
+    </marker>
+    <marker id="okhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--ok)"/>
+    </marker>
+  </defs>
+
+  <!-- Start -->
+  <rect class="start" x="20" y="14" width="400" height="42" rx="10"/>
+  <text class="mono center" x="220" y="40">iqs-launcher --autotag &lt;app&gt;[:&lt;version&gt;]</text>
+  <path class="arrow" d="M220 56 V92"/>
+
+  <!-- Step 1 -->
+  <rect class="card" x="20" y="92" width="400" height="80" rx="10"/>
+  <circle class="badge" cx="48" cy="132" r="14"/>
+  <text class="badge-text" x="48" y="137">1</text>
+  <text class="title" x="76" y="118">Local Docker image</text>
+  <text class="sub" x="76" y="138">Is innodiskorg/&lt;app&gt;:&lt;tag&gt; already on the platform?</text>
+  <text class="log" x="76" y="158">Step 1: Check if your local Docker image exists...</text>
+  <path class="arrow" d="M220 172 V208"/>
+  <text class="label" x="232" y="195">no</text>
+
+  <!-- Step 2 -->
+  <rect class="card" x="20" y="208" width="400" height="80" rx="10"/>
+  <circle class="badge" cx="48" cy="248" r="14"/>
+  <text class="badge-text" x="48" y="253">2</text>
+  <text class="title" x="76" y="234">.tar archive</text>
+  <text class="sub" x="76" y="254">Is binaries/docker-images/&lt;app&gt;.tar present?</text>
+  <text class="log" x="76" y="274">Step 2: Check the .tar archive...</text>
+  <path class="arrow" d="M220 288 V324"/>
+  <text class="label" x="232" y="311">no</text>
+
+  <!-- Step 3 -->
+  <rect class="card" x="20" y="324" width="400" height="80" rx="10"/>
+  <circle class="badge" cx="48" cy="364" r="14"/>
+  <text class="badge-text" x="48" y="369">3</text>
+  <text class="title" x="76" y="350">Docker Hub</text>
+  <text class="sub" x="76" y="370">Use innodiskorg/&lt;app&gt;:&lt;tag&gt;, pulled over the network</text>
+  <text class="log" x="76" y="390">Step 3: Try downloading from Docker Hub...</text>
+  <path class="arrow" d="M220 404 V434"/>
+
+  <!-- No network hint -->
+  <rect class="warn" x="20" y="434" width="400" height="46" rx="10"/>
+  <text class="sub center" x="220" y="454" style="fill:var(--text);font-weight:600">No network, or Docker Hub unreachable?</text>
+  <text class="sub center" x="220" y="471">Provide a .tar archive so Step 2 succeeds.</text>
+
+  <!-- Run -->
+  <rect class="ok" x="540" y="92" width="200" height="312" rx="10"/>
+  <text class="title center" x="640" y="236">Run the application</text>
+  <text class="sub center" x="640" y="258">The first match wins</text>
+
+  <path class="okarrow" d="M420 132 H538"/>
+  <text class="oklabel" x="480" y="124">found</text>
+  <path class="okarrow" d="M420 248 H538"/>
+  <text class="oklabel" x="480" y="240">docker load</text>
+  <path class="okarrow" d="M420 364 H538"/>
+  <text class="oklabel" x="480" y="356">pull</text>
+</svg>
